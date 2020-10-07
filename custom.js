@@ -1,5 +1,5 @@
 var util = {};
 
-util.hello = () => {
+util.init = () => {
 	console.log("hello");
 }
