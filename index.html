@@ -14,6 +14,9 @@
 	</div>
 </body>
 <script>
-	util.init();
+	util.readJson("deck-4e267298-8c08-4da8-8afb-e25da55a351d", (json) => {
+		let data = JSON.parse(json);
+		console.log(data);
+	});
 </script>
 </html>
