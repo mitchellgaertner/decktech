@@ -8,15 +8,68 @@
 <body>
 	<div class="container">
 		<div class="row">
+			<div class="col-6">
+				<label>Upload to system: </label>
+				<input class="deckUploader" type="file" name=state.decks>
+			</div>
+			<div class="col-12 uploadBox">
+				<div class="uploadMessage">
+					Drag JSON deck files here to upload.
+				</div>
+			</div>
 			<div class="col-12">
+				<table>
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Deck Name</th>
+							<th>Commander</th>
+						</tr>
+					</thead>
+					<tbody class="deckTable">
+
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
 </body>
 <script>
-	util.readJson("/decks/deck-4e267298-8c08-4da8-8afb-e25da55a351d.json", (json) => {
-		let data = JSON.parse(json);
-		console.log(data);
-	});
+	(function () {
+		var state = {
+			decks : []
+		};
+		function onChange(event) {
+			var reader = new FileReader();
+			reader.onload = onReaderLoad;
+			reader.readAsText(event.target.files[0]);
+		}
+
+		function onReaderLoad(event){
+			let obj = JSON.parse(event.target.result);
+			state.decks.push(obj);
+			util.updateTable(state);
+		}
+
+		function handleFileSelect(event){
+			event.stopPropagation();
+			event.preventDefault();
+			var reader = new FileReader();
+			reader.onload = onReaderLoad;
+			reader.readAsText(event.dataTransfer.files[0]);
+		}
+
+		function handleDragOver(event){
+			event.stopPropagation();
+			event.preventDefault();
+			event.dataTransfer.dropEffect = 'copy';
+		}
+
+		var dropZone = document.querySelector(".uploadBox");
+		dropZone.addEventListener('dragover', handleDragOver, false);
+		dropZone.addEventListener('drop', handleFileSelect, false);
+
+		document.querySelector(".deckUploader").addEventListener('change', onChange);
+	}())
 </script>
 </html>

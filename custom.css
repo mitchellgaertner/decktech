@@ -13,7 +13,7 @@ body {
 
 .row {
 	display: grid;
-	grid-template-columns repeat(12, 1fr);
+	grid-template-columns: repeat(12, 1fr);
 	grid-gap: 20px;
 }
 
@@ -36,4 +36,28 @@ body {
 	.col-12 {
 		grid-column: span 12;
 	}
+}
+
+/** upload box **/
+.uploadBox {
+	width: 800px;
+	background-color: #e8e8e8;
+	height: 250px;
+	border: 2px dotted #6e6e6e;
+	border-radius: 5px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 18px;
+	font-weight: 700;
+	color: #2e2e2e;
+}
+
+.uploadBox:hover {
+	background-color: #283329;
+	color: #fff;
+}
+
+.uploadMessage {
+
 }

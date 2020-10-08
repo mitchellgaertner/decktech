@@ -15,3 +15,13 @@ util.readJson = (file, callback) => {
 	}
 	rawFile.send(null);
 };
+
+util.updateTable = (state) => {
+	let decks = state.decks;
+	let table = document.querySelector(".deckTable")
+	table.innerHTML = "";
+	decks.forEach((item, index) => {
+		let row = "<tr>" + "<td>" + (index+1) + "</td><td>" + item.name + "</td></tr>"; 
+		table.innerHTML += row;
+	})
+}
