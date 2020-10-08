@@ -1,5 +1,7 @@
 body {
 	font-family: Arial;
+	background-color: #1f1f1f;
+	color: #fff;
 }
 
 /** GRID STYLES **/
@@ -54,7 +56,7 @@ body {
 }
 
 .uploadBox:hover {
-	background-color: #283329;
+	background-color: #2bb6d9;
 	color: #fff;
 }
 
