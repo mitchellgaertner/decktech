@@ -17,7 +17,7 @@
 					Drag JSON deck files here to upload.
 				</div>
 			</div>
-			<div class="col-12">
+			<div class="col-6">
 				<table>
 					<thead>
 						<tr>
@@ -31,14 +31,25 @@
 					</tbody>
 				</table>
 			</div>
+			<div class="col-6">
+				<button class="deckProcess">Process</button>
+			</div>
+			<div class="col-12">
+				<label>Shared:</label>
+				<ul class="shared">
+				</ul>
+			</div>
+			
 		</div>
 	</div>
 </body>
 <script>
 	(function () {
 		var state = {
-			decks : []
+			decks : [],
+			loading : false
 		};
+
 		function onChange(event) {
 			var reader = new FileReader();
 			reader.onload = onReaderLoad;
@@ -70,6 +81,15 @@
 		dropZone.addEventListener('drop', handleFileSelect, false);
 
 		document.querySelector(".deckUploader").addEventListener('change', onChange);
+		document.querySelector(".deckProcess").addEventListener('click', () => {
+			let processed = util.process(state);
+			let sharedList = document.querySelector(".shared");
+			sharedList.innerHTML = "";
+			processed.shared.forEach((item) => {
+				sharedList.innerHTML += `<li>${item}</li>`;
+			});
+			sharedList.innerHTML += `<li>Total: ${processed.shared.length}</li>`
+		});
 	}())
 </script>
 </html>
