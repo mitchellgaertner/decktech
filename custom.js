@@ -35,11 +35,13 @@ util.addRow = (table, item, index) => {
 	cmd.innerHTML = item.entries.commanders[0].card_digest.name;
 }
 
-util.process = (state) => {
+var deckteck = {};
+
+deckteck.process = (state) => {
 	let decks = state.decks;
 	let processed = {};
-	processed.allCards = util.getAll(decks);
-	processed.shared = util.getShared(decks, processed.allCards);
+	processed.allCards = deckteck.getAll(decks);
+	processed.shared = deckteck.getShared(decks, processed.allCards);
 	return processed;
 }
 
@@ -53,10 +55,10 @@ util.process = (state) => {
 // 	});
 // }
 
-util.getAll = (decks) => {
+deckteck.getAll = (decks) => {
 	let all = new Set();
 	decks.forEach(deck => {
-		util.getCards(deck).forEach(card => {
+		deckteck.getCards(deck).forEach(card => {
 			all.add(card);
 		})
 	})
@@ -64,7 +66,7 @@ util.getAll = (decks) => {
 };
 
 //Excludes Basics
-util.getCards = (deck) => {
+deckteck.getCards = (deck) => {
 	let cards = [];
 	deck.entries.nonlands.forEach(item => {
 		if (!item?.card_digest?.type_line.includes("Basic")) cards.push(item?.card_digest?.name);
@@ -75,12 +77,12 @@ util.getCards = (deck) => {
 	return cards;
 }
 
-util.getShared = (decks, fullList) => {
+deckteck.getShared = (decks, fullList) => {
 	let sharedList = [];
 	fullList.forEach(card => {
 		let shared = true;
 		for (let i = 0; i < decks.length; i++){
-			let cards = util.getCards(decks[i]);
+			let cards = deckteck.getCards(decks[i]);
 			if (!cards.includes(card)) shared = false;
 		}
 		if (shared){
