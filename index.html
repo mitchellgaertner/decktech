@@ -11,10 +11,10 @@
 			<div class="col-6">
 				<label>Upload to system: </label>
 				<input class="deckUploader" type="file" name=state.decks>
-			</div>
-			<div class="col-12 uploadBox">
-				<div class="uploadMessage">
-					Drag JSON deck files here to upload.
+				<div class="uploadBox">
+					<div class="uploadMessage">
+						Drag JSON deck files here to upload.
+					</div>
 				</div>
 			</div>
 			<div class="col-6">
@@ -31,7 +31,7 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="col-6">
+			<div class="col-12">
 				<button class="deckProcess">Process</button>
 			</div>
 			<div class="col-12">
@@ -39,7 +39,6 @@
 				<ul class="shared">
 				</ul>
 			</div>
-			
 		</div>
 	</div>
 </body>
@@ -82,7 +81,7 @@
 
 		document.querySelector(".deckUploader").addEventListener('change', onChange);
 		document.querySelector(".deckProcess").addEventListener('click', () => {
-			let processed = util.process(state);
+			let processed = deckteck.process(state);
 			let sharedList = document.querySelector(".shared");
 			sharedList.innerHTML = "";
 			processed.shared.forEach((item) => {
