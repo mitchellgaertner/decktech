@@ -4,6 +4,27 @@ body {
 	color: #fff;
 }
 
+table {
+	border: 1px solid #fff;
+}
+th, td {
+	padding: 20px;
+}
+
+th {
+	text-align: left;
+}
+
+button {
+	background-color: #031d24;
+	color: #fff;
+	border-radius: 5px;
+	box-shadow: none;
+	border: none;
+	padding: 10px;
+}
+
+
 /** GRID STYLES **/
 
 .container {
@@ -63,3 +84,6 @@ body {
 .uploadMessage {
 
 }
+
+
+
