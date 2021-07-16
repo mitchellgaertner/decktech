@@ -41,6 +41,7 @@ deckteck.process = (state) => {
 	let decks = state.decks;
 	let processed = {};
 	processed.allCards = deckteck.getAll(decks);
+
 	processed.shared = deckteck.getShared(decks, processed.allCards);
 	return processed;
 }
@@ -68,12 +69,14 @@ deckteck.getAll = (decks) => {
 //Excludes Basics
 deckteck.getCards = (deck) => {
 	let cards = [];
-	deck.entries.nonlands.forEach(item => {
-		if (!item?.card_digest?.type_line.includes("Basic")) cards.push(item?.card_digest);
-	});
-	deck.entries.lands.forEach(item => {
-		if (!item?.card_digest?.type_line.includes("Basic")) cards.push(item?.card_digest);
-	});
+	// deck.entries.nonlands.forEach(item => {
+	// 	if (!item?.card_digest?.type_line.includes("Basic")) cards.push(item);
+	// });
+	// deck.entries.lands.forEach(item => {
+	// 	if (!item?.card_digest?.type_line.includes("Basic")) cards.push(item);
+	// });
+	deck.entries.nonlands.forEach(item => { cards.push(item) });
+	deck.entries.lands.forEach(item => { cards.push(item) });
 	return cards;
 }
 
@@ -83,34 +86,45 @@ deckteck.getShared = (decks, fullList) => {
 		let shared = true;
 		for (let i = 0; i < decks.length; i++){
 			let cards = deckteck.getCards(decks[i]);
-			if (!cards.includes(card)) shared = false;
+			if (!deckteck.includesCard(cards, card)) shared = false;
 		}
-		if (shared){
+		if (shared && !deckteck.includesCard(sharedList, card)){
 			sharedList.push(card);
 		}
 	})
 	return sharedList;
 }
 
+deckteck.includesCard = (deck, card) => {
+	let includes = false;
+	deck.forEach(item => {
+		if (item.card_digest.name == card.card_digest.name){
+			includes = true;
+		}
+	})
+	return includes;
+}
+
 deckteck.getTypes = (card) => {
 	let typeLine = card.card_digest.type_line;
 
 	if (typeLine.includes("Creature")){
-		return "Creature";
-	}
-	if (typeLine.includes("Land")){
-		return "Land";
-	}
-	if (typeLine.includes("Enchantment")){
-		return "Enchantment";
-	}
-	if (typeLine.includes("Artifact")){
-		return "Artifact";
+		return "creatures";
 	}
 	if (typeLine.includes("Instant")){
-		return "Instant";
+		return "instants";
 	}
 	if (typeLine.includes("Sorcery")){
-		return "Sorcery";
+		return "sorceries";
 	}
+	if (typeLine.includes("Land")){
+		return "lands";
+	}
+	if (typeLine.includes("Enchantment")){
+		return "enchantments";
+	}
+	if (typeLine.includes("Artifact")){
+		return "artifacts";
+	}
+
 }
