@@ -34,9 +34,39 @@
 			<div class="col-12">
 				<button class="deckProcess">Process</button>
 			</div>
-			<div class="col-12">
-				<label>Shared:</label>
-				<ul class="shared">
+			<div class="col-3">
+				<label>Shared Creatures:</label>
+				<ul class="sharedCreatures">
+				</ul>
+			</div>
+			<div class="col-3">
+				<label>Shared Planeswalkers:</label>
+				<ul class="sharedPW">
+				</ul>
+			</div>
+			<div class="col-3">
+				<label>Shared Instants:</label>
+				<ul class="sharedInstants">
+				</ul>
+			</div>
+			<div class="col-3">
+				<label>Shared Sorceries:</label>
+				<ul class="sharedSorceries">
+				</ul>
+			</div>
+			<div class="col-3">
+				<label>Shared Artifact:</label>
+				<ul class="sharedArtifact">
+				</ul>
+			</div>
+			<div class="col-3">
+				<label>Shared Enchantment:</label>
+				<ul class="sharedEnchantment">
+				</ul>
+			</div>
+			<div class="col-3">
+				<label>Shared Land:</label>
+				<ul class="sharedLand">
 				</ul>
 			</div>
 		</div>
@@ -82,12 +112,63 @@
 		document.querySelector(".deckUploader").addEventListener('change', onChange);
 		document.querySelector(".deckProcess").addEventListener('click', () => {
 			let processed = deckteck.process(state);
-			let sharedList = document.querySelector(".shared");
+			
 			sharedList.innerHTML = "";
+			let types = {
+				creatures : [], 
+				lands : [], 
+				artifacts : [], 
+				enchantments : [], 
+				planeswalkers : [], 
+				instants : [], 
+				sorceries : []
+			};
 			processed.shared.forEach((item) => {
+				types[deckteck.getTypes].push($item.card_digest.name);
 				sharedList.innerHTML += `<li>${item}</li>`;
 			});
-			sharedList.innerHTML += `<li>Total: ${processed.shared.length}</li>`
+
+			//Creatures
+			types.creatures.forEach(item => {
+				document.querySelector(".sharedCreatures").innerHTML +=  `<li>${item}</li>`;
+			});
+			document.querySelector(".sharedCreatures").innerHTML +=  `<li>Total: ${types.creatures.length}</li>`;
+
+			//Planeswalkers
+			types.planeswalkers.forEach(item => {
+				document.querySelector(".sharedPW").innerHTML +=  `<li>${item}</li>`;
+			});
+			document.querySelector(".sharedPW").innerHTML +=  `<li>Total: ${types.planeswalkers.length}</li>`;
+
+			//Instants
+			types.instants.forEach(item => {
+				document.querySelector(".sharedInstants").innerHTML +=  `<li>${item}</li>`;
+			});
+			document.querySelector(".sharedInstants").innerHTML +=  `<li>Total: ${types.instants.length}</li>`;
+
+			//Sorceries
+			types.sorceries.forEach(item => {
+				document.querySelector(".sharedSorceries").innerHTML +=  `<li>${item}</li>`;
+			});
+			document.querySelector(".sharedSorceries").innerHTML +=  `<li>Total: ${types.sorceries.length}</li>`;
+
+			//Artifacts
+			types.artifacts.forEach(item => {
+				document.querySelector(".sharedArtifacts").innerHTML +=  `<li>${item}</li>`;
+			});
+			document.querySelector(".sharedArtifacts").innerHTML +=  `<li>Total: ${types.artifacts.length}</li>`;
+
+			//Enchantments
+			types.enchantments.forEach(item => {
+				document.querySelector(".sharedEnchantments").innerHTML +=  `<li>${item}</li>`;
+			});
+			document.querySelector(".sharedEnchantments").innerHTML +=  `<li>Total: ${types.enchantments.length}</li>`;
+
+			//Land
+			types.landss.forEach(item => {
+				document.querySelector(".sharedLands").innerHTML +=  `<li>${item}</li>`;
+			});
+			document.querySelector(".sharedLands").innerHTML +=  `<li>Total: ${types.lands.length}</li>`;
 		});
 	}())
 </script>

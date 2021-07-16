@@ -69,10 +69,10 @@ deckteck.getAll = (decks) => {
 deckteck.getCards = (deck) => {
 	let cards = [];
 	deck.entries.nonlands.forEach(item => {
-		if (!item?.card_digest?.type_line.includes("Basic")) cards.push(item?.card_digest?.name);
+		if (!item?.card_digest?.type_line.includes("Basic")) cards.push(item?.card_digest);
 	});
 	deck.entries.lands.forEach(item => {
-		if (!item?.card_digest?.type_line.includes("Basic")) cards.push(item?.card_digest?.name);
+		if (!item?.card_digest?.type_line.includes("Basic")) cards.push(item?.card_digest);
 	});
 	return cards;
 }
@@ -90,4 +90,27 @@ deckteck.getShared = (decks, fullList) => {
 		}
 	})
 	return sharedList;
+}
+
+deckteck.getTypes = (card) => {
+	let typeLine = card.card_digest.type_line;
+
+	if (typeLine.includes("Creature")){
+		return "Creature";
+	}
+	if (typeLine.includes("Land")){
+		return "Land";
+	}
+	if (typeLine.includes("Enchantment")){
+		return "Enchantment";
+	}
+	if (typeLine.includes("Artifact")){
+		return "Artifact";
+	}
+	if (typeLine.includes("Instant")){
+		return "Instant";
+	}
+	if (typeLine.includes("Sorcery")){
+		return "Sorcery";
+	}
 }
