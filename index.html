@@ -34,37 +34,37 @@
 			<div class="col-12">
 				<button class="deckProcess">Process</button>
 			</div>
-			<div class="col-3">
+			<div class="col-4">
 				<label>Shared Creatures:</label>
 				<ul class="sharedCreatures">
 				</ul>
 			</div>
-			<div class="col-3">
+			<div class="col-4">
 				<label>Shared Planeswalkers:</label>
 				<ul class="sharedPW">
 				</ul>
 			</div>
-			<div class="col-3">
+			<div class="col-4">
 				<label>Shared Instants:</label>
 				<ul class="sharedInstants">
 				</ul>
 			</div>
-			<div class="col-3">
+			<div class="col-4">
 				<label>Shared Sorceries:</label>
 				<ul class="sharedSorceries">
 				</ul>
 			</div>
-			<div class="col-3">
+			<div class="col-4">
 				<label>Shared Artifact:</label>
 				<ul class="sharedArtifact">
 				</ul>
 			</div>
-			<div class="col-3">
+			<div class="col-4">
 				<label>Shared Enchantment:</label>
 				<ul class="sharedEnchantment">
 				</ul>
 			</div>
-			<div class="col-3">
+			<div class="col-4">
 				<label>Shared Land:</label>
 				<ul class="sharedLand">
 				</ul>
@@ -112,8 +112,14 @@
 		document.querySelector(".deckUploader").addEventListener('change', onChange);
 		document.querySelector(".deckProcess").addEventListener('click', () => {
 			let processed = deckteck.process(state);
-			
-			sharedList.innerHTML = "";
+			document.querySelector('.sharedCreatures').innerHTML = '';
+			document.querySelector('.sharedInstants').innerHTML = '';
+			document.querySelector('.sharedLands').innerHTML = '';
+			document.querySelector('.sharedSorceries').innerHTML = '';
+			document.querySelector('.sharedArtifacts').innerHTML = '';
+			document.querySelector('.sharedEnchantments').innerHTML = '';
+			document.querySelector('.sharedPW').innerHTML = '';
+
 			let types = {
 				creatures : [], 
 				lands : [], 
@@ -125,7 +131,6 @@
 			};
 			processed.shared.forEach((item) => {
 				types[deckteck.getTypes].push($item.card_digest.name);
-				sharedList.innerHTML += `<li>${item}</li>`;
 			});
 
 			//Creatures
