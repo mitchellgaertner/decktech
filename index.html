@@ -4,6 +4,8 @@
 	<title>Deck Tech Tools v2.0</title>
 	<link href="custom.css" rel="stylesheet">
 	<script src="custom.js"></script>
+	<script src="./script/deckteck.js"></script>
+	<script src="./script/utils.js"></script>
 </head>
 <body>
 	<div class="container">
@@ -32,40 +34,41 @@
 				</table>
 			</div>
 			<div class="col-12">
-				<button class="deckProcess">Process</button>
+				<button class="deckProcess">Process Shared</button>
+				<button class="deckProcessDiff">Process Different</button>
 			</div>
 			<div class="col-12">Total: <span class="sharedTotal"></span></div>
-			<div class="col-4">
+			<div class="col-3">
 				<label>Shared Creatures:</label>
 				<ul class="sharedCreatures">
 				</ul>
 			</div>
-			<div class="col-4">
+			<div class="col-3">
 				<label>Shared Instants:</label>
 				<ul class="sharedInstants">
 				</ul>
 			</div>
-			<div class="col-4">
+			<div class="col-3">
 				<label>Shared Sorceries:</label>
 				<ul class="sharedSorceries">
 				</ul>
 			</div>
-			<div class="col-4">
+			<div class="col-3">
 				<label>Shared Artifact:</label>
 				<ul class="sharedArtifacts">
 				</ul>
 			</div>
-			<div class="col-4">
+			<div class="col-3">
 				<label>Shared Enchantment:</label>
 				<ul class="sharedEnchantments">
 				</ul>
 			</div>
-			<div class="col-4">
+			<div class="col-3">
 				<label>Shared Planeswalkers:</label>
 				<ul class="sharedPW">
 				</ul>
 			</div>
-			<div class="col-4">
+			<div class="col-3">
 				<label>Shared Land:</label>
 				<ul class="sharedLands">
 				</ul>
@@ -74,120 +77,6 @@
 	</div>
 </body>
 <script>
-	(function () {
-		var state = {
-			decks : [],
-			loading : false
-		};
-
-		function onChange(event) {
-			var reader = new FileReader();
-			reader.onload = onReaderLoad;
-			reader.readAsText(event.target.files[0]);
-		}
-
-		function onReaderLoad(event){
-			let obj = JSON.parse(event.target.result);
-			state.decks.push(obj);
-			util.updateTable(state);
-		}
-
-		function handleFileSelect(event){
-			event.stopPropagation();
-			event.preventDefault();
-			var reader = new FileReader();
-			reader.onload = onReaderLoad;
-			reader.readAsText(event.dataTransfer.files[0]);
-		}
-
-		function handleDragOver(event){
-			event.stopPropagation();
-			event.preventDefault();
-			event.dataTransfer.dropEffect = 'copy';
-		}
-
-		var dropZone = document.querySelector(".uploadBox");
-		dropZone.addEventListener('dragover', handleDragOver, false);
-		dropZone.addEventListener('drop', handleFileSelect, false);
-
-		document.querySelector(".deckUploader").addEventListener('change', onChange);
-		document.querySelector(".deckProcess").addEventListener('click', () => {
-			let processed = deckteck.process(state);
-
-
-			document.querySelector('.sharedCreatures').innerHTML = '';
-			document.querySelector('.sharedInstants').innerHTML = '';
-			document.querySelector('.sharedLands').innerHTML = '';
-			document.querySelector('.sharedSorceries').innerHTML = '';
-			document.querySelector('.sharedArtifacts').innerHTML = '';
-			document.querySelector('.sharedEnchantments').innerHTML = '';
-			document.querySelector('.sharedPW').innerHTML = '';
-			
-			let types = {
-				creatures : [], 
-				lands : [], 
-				artifacts : [], 
-				enchantments : [], 
-				planeswalkers : [], 
-				instants : [], 
-				sorceries : []
-			};
-
-			processed.shared.forEach((item) => {
-				types[deckteck.getTypes(item)].push(item.card_digest.name);
-			});
-
-			
-			//Creatures
-			types.creatures.forEach(item => {
-				document.querySelector(".sharedCreatures").innerHTML +=  `<li>${item}</li>`;
-			});
-			document.querySelector(".sharedCreatures").innerHTML +=  `<li>Total: ${types.creatures.length}</li>`;
-
-			//Planeswalkers
-			types.planeswalkers.forEach(item => {
-				document.querySelector(".sharedPW").innerHTML +=  `<li>${item}</li>`;
-			});
-			document.querySelector(".sharedPW").innerHTML +=  `<li>Total: ${types.planeswalkers.length}</li>`;
-
-			//Instants
-			types.instants.forEach(item => {
-				document.querySelector(".sharedInstants").innerHTML +=  `<li>${item}</li>`;
-			});
-			document.querySelector(".sharedInstants").innerHTML +=  `<li>Total: ${types.instants.length}</li>`;
-
-			//Sorceries
-			types.sorceries.forEach(item => {
-				document.querySelector(".sharedSorceries").innerHTML +=  `<li>${item}</li>`;
-			});
-			document.querySelector(".sharedSorceries").innerHTML +=  `<li>Total: ${types.sorceries.length}</li>`;
-
-			//Artifacts
-			types.artifacts.forEach(item => {
-				document.querySelector(".sharedArtifacts").innerHTML +=  `<li>${item}</li>`;
-			});
-			document.querySelector(".sharedArtifacts").innerHTML +=  `<li>Total: ${types.artifacts.length}</li>`;
-
-			//Enchantments
-			types.enchantments.forEach(item => {
-				document.querySelector(".sharedEnchantments").innerHTML +=  `<li>${item}</li>`;
-			});
-			document.querySelector(".sharedEnchantments").innerHTML +=  `<li>Total: ${types.enchantments.length}</li>`;
-
-			//Land
-			types.lands.forEach(item => {
-				document.querySelector(".sharedLands").innerHTML +=  `<li>${item}</li>`;
-			});
-			document.querySelector(".sharedLands").innerHTML +=  `<li>Total: ${types.lands.length}</li>`;
-
-			document.querySelector(".sharedTotal").innerHTML = types.creatures.length 
-																+ types.enchantments.length 
-																+ types.instants.length 
-																+ types.artifacts.length 
-																+ types.sorceries.length 
-																+ types.lands.length
-																+ types.planeswalkers.length;
-		});
-	}())
+	appInit();
 </script>
 </html>
